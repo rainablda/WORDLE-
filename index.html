@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wordle</title>
+<style>
+:root{
+  --bg:#eef1f7;--fg:#1d2a44;--tile:#fff;--line:#c4cbdb;--key:#d5daea;--keyfg:#1d2a44;
+  --ok:#1fa885;--near:#e8a317;--no:#6b7691;--onc:#fff;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#141c30;--fg:#eef1f7;--tile:#1d2a44;--line:#38466a;--key:#38466a;--keyfg:#eef1f7;--ok:#2fbf9b;--near:#f2b134;--no:#2a3556;
+}}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:"Trebuchet MS","Segoe UI",system-ui,sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center}
+header{width:100%;max-width:480px;display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid var(--line)}
+h1{margin:0;font-size:1.6rem;letter-spacing:.04em;font-weight:800}
+button{font:inherit;color:inherit;cursor:pointer}
+.new{background:none;border:1px solid var(--line);border-radius:8px;padding:6px 12px}
+.new:focus-visible,.k:focus-visible{outline:3px solid var(--near);outline-offset:2px}
+main{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:space-between;width:100%;max-width:480px;padding:12px 8px 16px}
+#board{display:grid;grid-template-rows:repeat(6,1fr);gap:6px;width:min(330px,82vw)}
+.row{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.t{aspect-ratio:1;display:grid;place-items:center;font-size:clamp(1.5rem,8vw,2rem);font-weight:800;text-transform:uppercase;background:var(--tile);border:2px solid var(--line);border-radius:6px}
+.t.fill{border-color:var(--fg);animation:pop .1s}
+.t.ok,.t.near,.t.no{color:var(--onc);border-color:transparent}
+.ok{background:var(--ok)}.near{background:var(--near)}.no{background:var(--no)}
+.t.flip{animation:flip .5s both}
+.row.shake{animation:shake .4s}
+@keyframes pop{50%{transform:scale(1.1)}}
+@keyframes flip{0%{transform:rotateX(0)}50%{transform:rotateX(90deg)}100%{transform:rotateX(0)}}
+@keyframes shake{20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+#msg{min-height:1.6em;margin:10px 0;font-weight:700;text-align:center}
+#kb{display:flex;flex-direction:column;gap:6px;width:100%}
+.kr{display:flex;justify-content:center;gap:5px}
+.k{flex:1;max-width:42px;height:52px;border:0;border-radius:6px;background:var(--key);color:var(--keyfg);font-weight:700;text-transform:uppercase;font-size:.95rem;padding:0}
+.k.wide{max-width:64px;font-size:.75rem}
+.k.ok,.k.near,.k.no{color:var(--onc)}
+@media (prefers-reduced-motion:reduce){.t.flip,.row.shake,.t.fill{animation:none}}
+</style>
+</head>
+<body>
+<header><h1>WORDLE (๑ᵔ⤙ᵔ๑)</h1><button class="new" id="new">New game</button></header>
+<main>
+  <div>
+    <div id="msg" role="status" aria-live="polite"></div>
+    <div id="board" aria-label="Guess board"></div>
+  </div>
+  <div id="kb"></div>
+</main>
+<script src="script.js"></script>
+</body>
+</html>
